@@ -6,7 +6,7 @@ aside:
 targetlink: https://www.momentbeijing.com/aerial/index.html
 ---
 
-[![](aerial/assets/aerial_banner.gif)]({{ page.targetlink }})
+[![](aerial/assets/aerial_banner_1999.gif)]({{ page.targetlink }})
 
 在北京的历史航拍中, 左右时间, 抹平文明.
 

@@ -1,12 +1,11 @@
 # my file
-_make_docx.py
-_notes.md
 *.sh
 *.doc
 *.docx
 database/
-aerial/_fullsize/
-aerial/_tiles/
+_*.md
+_*.html
+_*.py
 
 # General
 .DS_Store
