@@ -1,0 +1,444 @@
+
+<!DOCTYPE html><html lang="zh">
+        <head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>北京城市影像沿革 - 瞬息京华 | Moment of Beijing</title>
+
+<!-- end custom head snippets --><meta charset="utf-8">
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+<title>北京城市影像沿革</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+<script src="https://cdn.osmbuildings.org/classic/0.2.2b/OSMBuildings-Leaflet.js"></script>
+<script src="assets/leaflet-side-by-side.js"></script>
+<script src="assets/bing.js"></script>
+<script src="assets/leaflet-provider.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/jquery.share.min.js"></script>
+<link rel="stylesheet" href="assets/css/share.min.css" media="screen">
+<script>(function() {
+  window.isArray = function(val) {
+    return Object.prototype.toString.call(val) === '[object Array]';
+  };
+  window.isString = function(val) {
+    return typeof val === 'string';
+  };
+
+  window.decodeUrl = function(str) {
+    return str ? decodeURIComponent(str.replace(/\+/g, '%20')) : '';
+  };
+
+  window.hasEvent = function(event) {
+    return 'on'.concat(event) in window.document;
+  };
+
+  window.isOverallScroller = function(node) {
+    return node === document.documentElement || node === document.body || node === window;
+  };
+
+  window.isFormElement = function(node) {
+    var tagName = node.tagName;
+    return tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA';
+  };
+
+  window.pageLoad = (function () {
+    var loaded = false, cbs = [];
+    window.addEventListener('load', function () {
+      var i;
+      loaded = true;
+      if (cbs.length > 0) {
+        for (i = 0; i < cbs.length; i++) {
+          cbs[i]();
+        }
+      }
+    });
+    return {
+      then: function(cb) {
+        cb && (loaded ? cb() : (cbs.push(cb)));
+      }
+    };
+  })();
+})();(function() {
+  window.throttle = function(func, wait) {
+    var args, result, thisArg, timeoutId, lastCalled = 0;
+
+    function trailingCall() {
+      lastCalled = new Date;
+      timeoutId = null;
+      result = func.apply(thisArg, args);
+    }
+    return function() {
+      var now = new Date,
+        remaining = wait - (now - lastCalled);
+
+      args = arguments;
+      thisArg = this;
+
+      if (remaining <= 0) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+        lastCalled = now;
+        result = func.apply(thisArg, args);
+      } else if (!timeoutId) {
+        timeoutId = setTimeout(trailingCall, remaining);
+      }
+      return result;
+    };
+  };
+})();(function() {
+  var Set = (function() {
+    var add = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (data[i] === item) {
+          return;
+        }
+      }
+      this.size ++;
+      data.push(item);
+      return data;
+    };
+
+    var Set = function(data) {
+      this.size = 0;
+      this._data = [];
+      var i;
+      if (data.length > 0) {
+        for (i = 0; i < data.length; i++) {
+          add.call(this, data[i]);
+        }
+      }
+    };
+    Set.prototype.add = add;
+    Set.prototype.get = function(index) { return this._data[index]; };
+    Set.prototype.has = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (this.get(i) === item) {
+          return true;
+        }
+      }
+      return false;
+    };
+    Set.prototype.is = function(map) {
+      if (map._data.length !== this._data.length) { return false; }
+      var i, j, flag, tData = this._data, mData = map._data;
+      for (i = 0; i < tData.length; i++) {
+        for (flag = false, j = 0; j < mData.length; j++) {
+          if (tData[i] === mData[j]) {
+            flag = true;
+            break;
+          }
+        }
+        if (!flag) { return false; }
+      }
+      return true;
+    };
+    Set.prototype.values = function() {
+      return this._data;
+    };
+    return Set;
+  })();
+
+  window.Lazyload = (function(doc) {
+    var queue = {js: [], css: []}, sources = {js: {}, css: {}}, context = this;
+    var createNode = function(name, attrs) {
+      var node = doc.createElement(name), attr;
+      for (attr in attrs) {
+        if (attrs.hasOwnProperty(attr)) {
+          node.setAttribute(attr, attrs[attr]);
+        }
+      }
+      return node;
+    };
+    var end = function(type, url) {
+      var s, q, qi, cbs, i, j, cur, val, flag;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        s[url] = true;
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (cur.urls.has(url)) {
+            qi = cur, val = qi.urls.values();
+            qi && (cbs = qi.callbacks);
+            for (flag = true, j = 0; j < val.length; j++) {
+              cur = val[j];
+              if (!s[cur]) {
+                flag = false;
+              }
+            }
+            if (flag && cbs && cbs.length > 0) {
+              for (j = 0; j < cbs.length; j++) {
+                cbs[j].call(context);
+              }
+              qi.load = true;
+            }
+          }
+        }
+      }
+    };
+    var load = function(type, urls, callback) {
+      var s, q, qi, node, i, cur,
+        _urls = typeof urls === 'string' ? new Set([urls]) : new Set(urls), val, url;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (_urls.is(cur.urls)) {
+            qi = cur;
+            break;
+          }
+        }
+        val = _urls.values();
+        if (qi) {
+          callback && (qi.load || qi.callbacks.push(callback));
+          callback && (qi.load && callback());
+        } else {
+          q.push({
+            urls: _urls,
+            callbacks: callback ? [callback] : [],
+            load: false
+          });
+          for (i = 0; i < val.length; i++) {
+            node = null, url = val[i];
+            if (s[url] === undefined) {
+              (type === 'js' ) && (node = createNode('script', { src: url }));
+              (type === 'css') && (node = createNode('link', { rel: 'stylesheet', href: url }));
+              if (node) {
+                node.onload = (function(type, url) {
+                  return function() {
+                    end(type, url);
+                  };
+                })(type, url);
+                (doc.head || doc.body).appendChild(node);
+                s[url] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+    return {
+      js: function(url, callback) {
+        load('js', url, callback);
+      },
+      css: function(url, callback) {
+        load('css', url, callback);
+      }
+    };
+  })(this.document);
+})();</script><script>
+  (function() {
+    var TEXT_VARIABLES = {
+      version: '2.2.4',
+      sources: {
+        font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
+        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
+        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        gitalk: {
+          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
+          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+        },
+        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+      },
+      site: {
+        toc: {
+          selectors: 'h1,h2,h3,h4,h5'
+        }
+      },
+      paths: {
+        search_js: '/assets/search.js'
+      }
+    };
+    window.TEXT_VARIABLES = TEXT_VARIABLES;
+  })();
+</script><style>
+    body { margin:0; padding:0; }
+    body, table, tr, td, th, div, h1, h2, input { font-family: "Calibri", "Trebuchet MS", "Ubuntu", Serif; font-size: 11pt; }
+    #map { position:absolute; top:0; bottom:0; width:100%; } /* full size */
+    .ctl {
+        padding: 2px 10px 2px 10px;
+        background: white;
+        background: rgba(255,255,255,0.9);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+        text-align: right;
+    }
+    .title {
+        font-size: 18pt;
+        font-weight: bold;
+    }
+    .src {
+        font-size: 10pt;
+    }
+    .leaflet-left .leaflet-control {
+        text-align: left
+    }
+</style>
+</head>
+
+        <body>
+              <div id="map"></div>
+        <script>
+        /* **** Leaflet **** */
+        // bound
+        var southWest = L.latLng(39.86, 116.45),
+            northEast = L.latLng(39.96, 116.33),
+            mybounds = L.latLngBounds(southWest, northEast);
+
+        var layer_bw = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', 
+                {attribution: '', 
+                });
+        
+        var layer_bing = new L.BingLayer('AuJzwYKn6bT-SdcNxz6n2u5rdrmh0BR8YcFDhNRW_4mMNmhhYqVVtvZoEt7C8n2X', 
+                {minNativeZoom:15, 
+                bounds:mybounds,
+                maxZoom: 19,
+                })
+        
+        var layer_bw_overlay = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', 
+                {attribution: '', 
+                opacity: 0.15, 
+                });
+
+        var layer_osmb = new OSMBuildings(map).load('https://{s}.data.osmbuildings.org/0.2/anonymous/tile/{z}/{x}/{y}.json');
+            layer_osmb.style({wallColor:'rgba(37, 3, 1, 0.8)', 
+                roofColor:'rgba(244, 67, 54, 0.01)', 
+                shadows:false, 
+                zoomOffset: 4,
+                minNativeZoom:10,
+                })
+
+
+        var layer_blank_left = new L.tileLayer('') 
+        var layer_blank_right = new L.tileLayer('')
+        var layer_2011_left = L.tileLayer('tiles/2011/{z}/{x}/{y}.png', {
+                tms: true, 
+                attribution: "一零年代", 
+                maxNativeZoom: 17, 
+                minNativeZoom:15, 
+                maxZoom: 19,
+                });
+        var layer_2011_right = L.tileLayer('tiles/2011/{z}/{x}/{y}.png', {
+                tms: true, 
+                attribution: "一零年代", 
+                maxNativeZoom: 17, 
+                minNativeZoom:15, 
+                maxZoom: 19,
+                });
+        var layer_1966_left = L.tileLayer('tiles/2011/{z}/{x}/{y}.png', {
+                tms: true, 
+                attribution: "六十年代", 
+                maxNativeZoom: 17, 
+                minNativeZoom:12, 
+                maxZoom: 19,
+                });
+        var layer_1966_right = L.tileLayer('tiles/1966/{z}/{x}/{y}.png', {
+                tms: true, 
+                attribution: "六十年代", 
+                maxNativeZoom: 17, 
+                minNativeZoom:15, 
+                maxZoom: 19,
+                });
+
+
+        var map = L.map('map', {
+                center: [39.90988365647943, 116.38964525311975],
+                zoom: 1,
+                minZoom: 12,
+                maxZoom: 19,
+                layers: [layer_bw, layer_bing, layer_2011_right,layer_1966_left],
+                attributionControl: false,
+                zoomControl: false,
+                });
+
+        // Title
+        var src = '<a target="_blank" rel="noopener noreferrer" href="https://www.momentbeijing.com" style="text-decoration:none; text-align:inherit">&copy 瞬息京华 - 北京城消亡史</a>';
+        var title = L.control({position: 'bottomleft'});
+        title.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'ctl src');
+            this.update();
+            return this._div;
+            };
+        title.update = function(props) {
+            this._div.innerHTML = src;
+            };
+        title.addTo(map);
+
+        var title = L.control({position: 'bottomleft'});
+        title.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'ctl title');
+            this.update();
+            return this._div;
+            };
+        title.update = function(props) {
+            this._div.innerHTML = '<a rel="noopener noreferrer" href="https://www.momentbeijing.com/aerial-doc.html" style="text-decoration:none; color:black;">北京城市影像沿革</a>';
+            };
+        title.addTo(map);
+
+        var src = '<div class="social-share" data-source="" data-title="北京城市影像沿革" data-description="在北京的历史航拍中, 左右时间, 抹平文明" data-image="https://www.momentbeijing.com/aerial/assets/aerial_screenshot.gif" data-wechat-qrcode-title="微信二维码" data-wechat-qrcode-helper="" data-sites="weibo,wechat,douban,qq,twitter,facebook" data-mobile-sites="weibo,twitter"><a target="_blank" rel="noopener noreferrer" href="mailto:info@momentbeijing.com" class="social-share-icon icon-mail">邮</a></div>';
+        var title = L.control({position: 'bottomright'});
+        title.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'ctl title');
+            this.update();
+            return this._div;
+            };
+        title.update = function(props) {
+            this._div.innerHTML = src;
+            };
+        title.addTo(map);
+
+        var basemaps_left = {
+            "六十年代": layer_1966_left,
+            "一零年代": layer_2011_left, 
+            "现状": layer_blank_left,
+            }
+        var basemaps_right = {
+            "六十年代": layer_1966_right,
+            "一零年代": layer_2011_right, 
+            "现状": layer_blank_right,
+            }
+        var overlaymaps = {
+            "大型建筑":layer_osmb, 
+            "道路标记": layer_bw_overlay,
+            }
+        // Add base layers
+        L.control.layers(
+            basemaps_right, 
+            overlaymaps,
+            {collapsed: false,
+            position:'topright',
+            },).addTo(map);
+        L.control.layers(
+            basemaps_left, 
+            overlaymaps,
+            {collapsed: false, 
+            position:'topleft',
+            },).addTo(map);
+
+        L.control.sideBySide(Object.values(basemaps_left),Object.values(basemaps_right)).addTo(map);
+
+        L.control.zoom({position: 'bottomright'}).addTo(map);
+
+        // Fit to overlay bounds (SW and NE points with (lat, lon))
+        // map.fitBounds([[39.86571331388775, 116.44332750623948], [39.95405399907111, 116.33596300000002]]);
+        setTimeout(function(){map.zoomIn(1);},2000);
+        </script>
+
+
+        
+                            <script>(function () {
+  var $root = document.getElementsByClassName('root')[0];
+  if (window.hasEvent('touchstart')) {
+    $root.dataset.isTouch = true;
+    document.addEventListener('touchstart', function(){}, false);
+  }
+})();</script>
+</body>
+        </html>

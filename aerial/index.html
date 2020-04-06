@@ -1,0 +1,172 @@
+---
+title: 北京城市影像沿革
+description: 在北京的历史航拍中, 左右时间, 抹平文明
+img: https://www.momentbeijing.com/aerial/assets/aerial_screenshot.gif
+layout: map
+---
+
+
+        <div id="map"></div>
+        <script>
+        /* **** Leaflet **** */
+        // bound
+        var southWest = L.latLng(39.86, 116.45),
+            northEast = L.latLng(39.96, 116.33),
+            mybounds = L.latLngBounds(southWest, northEast);
+
+        var layer_bw = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', 
+                {attribution: '', 
+                });
+        
+        var layer_bing = new L.BingLayer('AuJzwYKn6bT-SdcNxz6n2u5rdrmh0BR8YcFDhNRW_4mMNmhhYqVVtvZoEt7C8n2X', 
+                {minNativeZoom:15, 
+                bounds:mybounds,
+                maxZoom: 19,
+                })
+        
+        var layer_bw_overlay = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', 
+                {attribution: '', 
+                opacity: 0.15, 
+                });
+
+        var layer_osmb = new OSMBuildings(map).load('https://{s}.data.osmbuildings.org/0.2/anonymous/tile/{z}/{x}/{y}.json');
+            layer_osmb.style({wallColor:'rgba(37, 3, 1, 0.8)', 
+                roofColor:'rgba(244, 67, 54, 0.01)', 
+                shadows:false, 
+                zoomOffset: 4,
+                minNativeZoom:10,
+                })
+
+
+        var layer_blank_left = new L.tileLayer('') 
+        var layer_blank_right = new L.tileLayer('')
+        var layer_2011_left = L.tileLayer('tiles/2011/{z}/{x}/{y}.png', {
+                tms: true, 
+                attribution: "二零一一", 
+                maxNativeZoom: 17, 
+                minNativeZoom:13, 
+                maxZoom: 19,
+                });
+        var layer_2011_right = L.tileLayer('tiles/2011/{z}/{x}/{y}.png', {
+                tms: true, 
+                attribution: "二零一一", 
+                maxNativeZoom: 17, 
+                minNativeZoom:13, 
+                maxZoom: 19,
+                });
+        var layer_1999_right = L.tileLayer('tiles/1999/{z}/{x}/{y}.png', {
+                tms: true, 
+                attribution: "一九九九", 
+                maxNativeZoom: 17, 
+                minNativeZoom:13, 
+                maxZoom: 19,
+                });
+        var layer_1999_left = L.tileLayer('tiles/1999/{z}/{x}/{y}.png', {
+                tms: true, 
+                attribution: "一九九九", 
+                maxNativeZoom: 17, 
+                minNativeZoom:13, 
+                maxZoom: 19,
+                });
+        var layer_1959_right = L.tileLayer('tiles/1959/{z}/{x}/{y}.png', {
+                tms: true, 
+                attribution: "一九五九", 
+                maxNativeZoom: 17, 
+                minNativeZoom:13, 
+                maxZoom: 19,
+                });
+        var layer_1959_left = L.tileLayer('tiles/1959/{z}/{x}/{y}.png', {
+                tms: true, 
+                attribution: "一九五九", 
+                maxNativeZoom: 17, 
+                minNativeZoom:13, 
+                maxZoom: 19,
+                });
+
+        var map = L.map('map', {
+                center: [39.90988365647943, 116.38964525311975],
+                zoom: 1,
+                minZoom: 12,
+                maxZoom: 19,
+                layers: [layer_bw, layer_bing, layer_blank_right,layer_1999_left],
+                attributionControl: false,
+                zoomControl: false,
+                });
+
+        // Title
+        var src = '<a target="_blank" rel="noopener noreferrer" href="{{ site.url }}" style="text-decoration:none; text-align:inherit">&copy 瞬息京华 - 北京城消亡史</a>';
+        var title = L.control({position: 'bottomleft'});
+        title.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'ctl src');
+            this.update();
+            return this._div;
+            };
+        title.update = function(props) {
+            this._div.innerHTML = src;
+            };
+        title.addTo(map);
+
+        var title = L.control({position: 'bottomleft'});
+        title.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'ctl title');
+            this.update();
+            return this._div;
+            };
+        title.update = function(props) {
+            this._div.innerHTML = '<a rel="noopener noreferrer" href="{{ site.url }}/aerial-doc.html" style="text-decoration:none; color:black;">{{ page.title }}</a>';
+            };
+        title.addTo(map);
+
+        var src = '<div class="social-share" data-source="" data-title="{{ page.title }}" data-description="{{ page.description }}" data-image="{{ page.img }}" data-wechat-qrcode-title="微信二维码" data-wechat-qrcode-helper="" data-sites="weibo,wechat,douban,qq,twitter,facebook" data-mobile-sites="weibo,twitter"><a target="_blank" rel="noopener noreferrer" href="mailto:{{site.email}}" class="social-share-icon icon-mail">邮</a></div>';
+        var title = L.control({position: 'bottomright'});
+        title.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'ctl title');
+            this.update();
+            return this._div;
+            };
+        title.update = function(props) {
+            this._div.innerHTML = src;
+            };
+        title.addTo(map);
+
+        var basemaps_left = {
+            "一九五九": layer_1959_left,
+            "一九九九": layer_1999_left,
+            "二零一一": layer_2011_left, 
+            "二零一九": layer_blank_left,
+            }
+        var basemaps_right = {
+            "一九五九": layer_1959_right,
+            "一九九九": layer_1999_right,
+            "二零一一": layer_2011_right, 
+            "二零一九": layer_blank_right,
+            }
+        var overlaymaps = {
+            "大型建筑":layer_osmb, 
+            "道路标记": layer_bw_overlay,
+            }
+        // Add base layers
+        L.control.layers(
+            basemaps_right, 
+            overlaymaps,
+            {collapsed: false,
+            position:'topright',
+            },).addTo(map);
+        L.control.layers(
+            basemaps_left, 
+            overlaymaps,
+            {collapsed: false, 
+            position:'topleft',
+            },).addTo(map);
+
+        L.control.sideBySide(Object.values(basemaps_left),Object.values(basemaps_right)).addTo(map);
+
+        L.control.zoom({position: 'bottomright'}).addTo(map);
+
+        // Fit to overlay bounds (SW and NE points with (lat, lon))
+        // map.fitBounds([[39.86571331388775, 116.44332750623948], [39.95405399907111, 116.33596300000002]]);
+        setTimeout(function(){map.zoomIn(1);},2000);
+        </script>
+
+
+        

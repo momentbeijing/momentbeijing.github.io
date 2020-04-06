@@ -1,0 +1,18 @@
+---
+layout: none
+---
+
+<!DOCTYPE html>
+    {%- include snippets/get-lang.html -%}
+    <html lang="{{ __return }}">
+        <head>
+        {%- include map/head.html -%}
+        </head>
+
+        <body>
+      {{ content }}
+        	                <script>
+        {%- include scripts/common.js -%}
+        </script>
+</body>
+        </html>
