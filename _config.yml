@@ -13,8 +13,8 @@ text_skin: default # "default" (default), "dark", "forest", "ocean", "chocolate"
 highlight_theme: default # "default" (default), "tomorrow", "tomorrow-night", "tomorrow-night-eighties", "tomorrow-night-blue", "tomorrow-night-bright"
 url     : https://www.momentbeijing.com
 baseurl : # does not include hostname
-title   : 瞬息京华 | Moment of Beijing
-description: 北京城消亡史 | The Murder of Beijing City # this means to ignore newlines until "Language & timezone"
+title   : 瞬息京华 | Moment Beijing
+description: 北京城消亡史 | Murder of Beijing City # this means to ignore newlines until "Language & timezone"
 email: info@momentbeijing.com
 giturl : https://raw.githubusercontent.com/momentbeijing/momentbeijing.github.io/master/
 

@@ -1,6 +1,6 @@
 ---
-title: 北京城市影像沿革
-description: 在北京的历史航拍中, 左右时间, 抹平文明
+title: Beijing City Aerial History
+description: Among imagery, slide time to erase civilization
 img: https://www.momentbeijing.com/aerial/assets/aerial_banner_1999.gif
 layout: map
 ---
@@ -9,10 +9,10 @@ layout: map
 <div id="map"></div>
 <script>
 
-    // read url params
+// read url params
 var params = {};
 window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
-    params[key] = value;
+  params[key] = value;
 });
 
 
@@ -26,7 +26,7 @@ var layer_bw = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png',
         {attribution: '', 
         });
 
-var layer_bing = new L.BingLayer('AuJzwYKn6bT-SdcNxz6n2u5rdrmh0BR8YcFDhNRW_4mMNmhhYqVVtvZoEt7C8n2X', 
+var layer_bing = new L.BingLayer('AsaKzgbo2GW8wrcv0mLCyVvEx2Q8V1N54Gpmizw-fzHIKOAjAMMy4TdNfKdS71vs', 
         {minNativeZoom:13, 
         bounds:mybounds,
         maxZoom: 20,
@@ -50,42 +50,42 @@ var layer_2020_left = new L.tileLayer('')
 var layer_2020_right = new L.tileLayer('')
 var layer_2011_left = L.tileLayer('tiles/2011/{z}/{x}/{y}.png', {
         tms: true, 
-        attribution: "二零一一", 
+        attribution: "2011", 
         maxNativeZoom: 17, 
         minNativeZoom:13, 
         maxZoom: 19,
         });
 var layer_2011_right = L.tileLayer('tiles/2011/{z}/{x}/{y}.png', {
         tms: true, 
-        attribution: "二零一一", 
+        attribution: "2011", 
         maxNativeZoom: 17, 
         minNativeZoom:13, 
         maxZoom: 19,
         });
 var layer_1999_right = L.tileLayer('tiles/1999/{z}/{x}/{y}.png', {
         tms: true, 
-        attribution: "一九九九", 
+        attribution: "1999", 
         maxNativeZoom: 17, 
         minNativeZoom:13, 
         maxZoom: 19,
         });
 var layer_1999_left = L.tileLayer('tiles/1999/{z}/{x}/{y}.png', {
         tms: true, 
-        attribution: "一九九九", 
+        attribution: "1999", 
         maxNativeZoom: 17, 
         minNativeZoom:13, 
         maxZoom: 19,
         });
 var layer_1959_right = L.tileLayer('tiles/1959/{z}/{x}/{y}.png', {
         tms: true, 
-        attribution: "一九五九", 
+        attribution: "1959", 
         maxNativeZoom: 17, 
         minNativeZoom:13, 
         maxZoom: 19,
         });
 var layer_1959_left = L.tileLayer('tiles/1959/{z}/{x}/{y}.png', {
         tms: true, 
-        attribution: "一九五九", 
+        attribution: "1959", 
         maxNativeZoom: 17, 
         minNativeZoom:13, 
         maxZoom: 19,
@@ -113,7 +113,7 @@ var map = L.map('map', {
         });
 
 // Title
-var src = '<a target="_blank" rel="noopener noreferrer" href="{{ site.url }}" style="text-decoration:none; text-align:inherit">&copy 瞬息京华 - 北京城消亡史</a>';
+var src = '<a target="_blank" rel="noopener noreferrer" href="{{ site.url }}" style="text-decoration:none; text-align:inherit">&copy Moment of Beijing - Murder of the City</a>';
 var title = L.control({position: 'bottomleft'});
 title.onAdd = function(map) {
     this._div = L.DomUtil.create('div', 'ctl src');
@@ -136,7 +136,7 @@ title.update = function(props) {
     };
 title.addTo(map);
 
-var src = '<div class="social-share" data-source="" data-title="{{ page.title }}" data-description="{{ page.description }}" data-image="{{ page.img }}" data-wechat-qrcode-title="微信二维码" data-wechat-qrcode-helper="" data-sites="weibo,wechat,douban,qq,twitter,facebook" data-mobile-sites="weibo,twitter"><a target="_blank" rel="noopener noreferrer" href="mailto:{{site.email}}" class="social-share-icon icon-mail">邮</a></div>';
+var src = '<div class="social-share" data-source="" data-title="{{ page.title }}" data-description="{{ page.description }}" data-image="{{ page.img }}" data-wechat-qrcode-title="Scan WeChat QR" data-wechat-qrcode-helper="" data-sites="weibo,wechat,douban,qq,twitter,facebook" data-mobile-sites="weibo,twitter"><a target="_blank" rel="noopener noreferrer" href="mailto:{{site.email}}" class="social-share-icon icon-mail">M</a></div>';
 var title = L.control({position: 'bottomright'});
 title.onAdd = function(map) {
     this._div = L.DomUtil.create('div', 'ctl title');
@@ -149,20 +149,20 @@ title.update = function(props) {
 title.addTo(map);
 
 var basemaps_left = {
-    "一九五九": layer_1959_left,
-    "一九九九": layer_1999_left,
-    "二零一一": layer_2011_left, 
-    "二零二零": layer_2020_left,
+    "1959": layer_1959_left,
+    "1999": layer_1999_left,
+    "2011": layer_2011_left, 
+    "2020": layer_2020_left,
     }
 var basemaps_right = {
-    "一九五九": layer_1959_right,
-    "一九九九": layer_1999_right,
-    "二零一一": layer_2011_right, 
-    "二零二零": layer_2020_right,
+    "1959": layer_1959_right,
+    "1999": layer_1999_right,
+    "2011": layer_2011_right, 
+    "2020": layer_2020_right,
     }
 var overlaymaps = {
-    "大型建筑":layer_osmb, 
-    "道路标记": layer_bw_overlay,
+    "Buildings":layer_osmb, 
+    "Roads": layer_bw_overlay,
     }
 // Add base layers
 L.control.layers(
