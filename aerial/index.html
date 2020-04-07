@@ -184,12 +184,23 @@ L.control.sideBySide(Object.values(basemaps_left),Object.values(basemaps_right))
 var bingGeocoder = new L.Control.BingGeocoder('AsaKzgbo2GW8wrcv0mLCyVvEx2Q8V1N54Gpmizw-fzHIKOAjAMMy4TdNfKdS71vs');
 map.addControl(bingGeocoder);
 
-
 if (params.q) {
   bingGeocoder._input.value=decodeURIComponent(params.q);
   bingGeocoder._geocode_initial()
 } else {
 setTimeout(function(){map.zoomIn(1);},2000);
 }
-L.control.zoom({position: 'bottomright'}).addTo(map);
+//language link
+var title = L.control({position: 'bottomright'});
+title.onAdd = function(map) {
+    this._div = L.DomUtil.create('div', 'ctl title');
+    this.update();
+    return this._div;
+    };
+title.update = function(props) {
+    this._div.innerHTML = '<a rel="noopener noreferrer" href="{{ site.url }}/aerial/en.html" style="text-decoration:none; color:black;">En</a>';
+    };
+title.addTo(map);
+
+// L.control.zoom({position: 'bottomright'}).addTo(map);
 </script>

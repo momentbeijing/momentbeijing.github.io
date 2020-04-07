@@ -27,7 +27,7 @@ L.Control.BingGeocoder = L.Control.extend({
 
 		L.DomEvent.disableClickPropagation(container);
 
-		var form = this._form = L.DomUtil.create('form', className + '-form');
+		var form = this._form = L.DomUtil.create('form', className + '-form ctl');
 
 		var input = this._input = L.DomUtil.create('input', className + '-input', form);
 		input.type = 'text';
@@ -41,7 +41,7 @@ L.Control.BingGeocoder = L.Control.extend({
 			L.DomEvent.on(container, 'mouseover', this._expand, this);
 			L.DomEvent.on(container, 'mouseout', this._collapse, this);
 
-			var link = this._layersLink = L.DomUtil.create('a', className + '-toggle', container);
+			var link = this._layersLink = L.DomUtil.create('a', className + '-toggle ctl', container);
 			link.href = '#';
 			link.title = 'Bing Geocoder';
 			link.innerHTML = this.options.text;
