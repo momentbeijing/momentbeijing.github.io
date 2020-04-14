@@ -71,7 +71,7 @@ license: CC-BY-NC-4.0 # "CC-BY-4.0", "CC-BY-SA-4.0", "CC-BY-NC-4.0", "CC-BY-ND-4
 
 ## TOC
 toc:
-  selectors: "h1,h2,h3,h4,h5"
+  selectors: "h3,h4,h5,h6,h7"
 
 ## publish time in future
 future: true # to show the post if date is in future
@@ -166,10 +166,10 @@ analytics:
 
   ## Google Analytics
   google:
-    tracking_id : # Google Analytics id for the site
+    tracking_id : UA-152077362-5 # Google Analytics id for the site
     anonymize_ip: false # Anonymize IP tracking for Analytics
 
-
+ 
 ## => Build
 ##############################
 markdown    : kramdown
