@@ -22,6 +22,9 @@ var southWest = L.latLng(39.86, 116.45),
     northEast = L.latLng(39.96, 116.33),
     mybounds = L.latLngBounds(southWest, northEast);
 
+// TODO: accurate bound from gdal2tiles, to limit tile http request
+
+// base layers
 var layer_bw = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', 
         {attribution: '', 
         });
@@ -45,7 +48,7 @@ var layer_osmb = new OSMBuildings(map).load('https://{s}.data.osmbuildings.org/0
         minNativeZoom:10,
         })
 
-
+// aerial layers
 var layer_2020_left = new L.tileLayer('') 
 var layer_2020_right = new L.tileLayer('')
 var layer_2011_left = L.tileLayer('tiles/2011/{z}/{x}/{y}.png', {
@@ -99,9 +102,7 @@ if (years.includes(params.year)) {
     layer_param_left = 'layer_1999_left'
 }
 
-// later add param lon/lat bound
-// if (params.lat)
-
+// leaflet map element
 var map = L.map('map', {
         center: [parseInt(params.lat)||39.90988365647943,parseInt(params.lon)|| 116.38964525311975],
         zoom: 1,
@@ -112,7 +113,7 @@ var map = L.map('map', {
         zoomControl: false,
         });
 
-// Title
+// titles and controllers
 var src = '<a target="_blank" rel="noopener noreferrer" href="{{ site.url }}" style="text-decoration:none; text-align:inherit">&copy 瞬息京华 - 北京城消亡史</a>';
 var title = L.control({position: 'bottomleft'});
 title.onAdd = function(map) {
@@ -136,6 +137,7 @@ title.update = function(props) {
     };
 title.addTo(map);
 
+//sharing code using share.js
 var src = '<div class="social-share" data-source="" data-title="{{ page.title }}" data-description="{{ page.description }}" data-image="{{ page.img }}" data-wechat-qrcode-title="微信二维码" data-wechat-qrcode-helper="" data-sites="weibo,wechat,douban,qq,twitter,facebook" data-mobile-sites="weibo,twitter"><a target="_blank" rel="noopener noreferrer" href="mailto:{{site.email}}" class="social-share-icon icon-mail">邮</a></div>';
 var title = L.control({position: 'bottomright'});
 title.onAdd = function(map) {
@@ -148,6 +150,7 @@ title.update = function(props) {
     };
 title.addTo(map);
 
+// selection panel
 var basemaps_left = {
     "一九五九": layer_1959_left,
     "一九九九": layer_1999_left,
@@ -180,16 +183,17 @@ L.control.layers(
 
 L.control.sideBySide(Object.values(basemaps_left),Object.values(basemaps_right)).addTo(map);
 
-//L.Control.BingGeocoder('AsaKzgbo2GW8wrcv0mLCyVvEx2Q8V1N54Gpmizw-fzHIKOAjAMMy4TdNfKdS71vs').addTo(map);
+// search widget
 var bingGeocoder = new L.Control.BingGeocoder('AsaKzgbo2GW8wrcv0mLCyVvEx2Q8V1N54Gpmizw-fzHIKOAjAMMy4TdNfKdS71vs');
 map.addControl(bingGeocoder);
-
+// read url query
 if (params.q) {
   bingGeocoder._input.value=decodeURIComponent(params.q);
   bingGeocoder._geocode_initial()
 } else {
 setTimeout(function(){map.zoomIn(1);},2000);
 }
+
 //language link
 var title = L.control({position: 'bottomright'});
 title.onAdd = function(map) {
@@ -202,5 +206,4 @@ title.update = function(props) {
     };
 title.addTo(map);
 
-// L.control.zoom({position: 'bottomright'}).addTo(map);
 </script>
