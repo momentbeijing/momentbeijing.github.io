@@ -6,6 +6,9 @@ database/
 _*.md
 _*.html
 _*.py
+aerial/tiles/*/*.html
+aerial/tiles/*/*.xml
+_drafts/
 
 # General
 .DS_Store
