@@ -33,7 +33,7 @@ var layer_bing = new L.BingLayer('AsaKzgbo2GW8wrcv0mLCyVvEx2Q8V1N54Gpmizw-fzHIKO
 
 var layer_bw_overlay = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', 
         {attribution: '', 
-        opacity: 0.15, 
+        opacity: 0.5, 
         });
 
 var layer_osmb = new OSMBuildings(map).load('https://{s}.data.osmbuildings.org/0.2/anonymous/tile/{z}/{x}/{y}.json');
@@ -130,8 +130,7 @@ var basemaps_right = {
     "2020": layer_2020_right,
     }
 var overlaymaps = {
-    "Buildings":layer_osmb, 
-    "Roads": layer_bw_overlay,
+    "Roads & Buildings":L.layerGroup([layer_osmb, layer_bw_overlay])
     }
 // Add base layers
 L.control.layers(
