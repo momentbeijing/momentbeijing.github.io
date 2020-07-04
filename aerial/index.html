@@ -48,7 +48,7 @@ var layer_osmb = new OSMBuildings(map).load('https://{s}.data.osmbuildings.org/0
 // aerial layers
 var layer_2020_left = new L.tileLayer('') 
 var layer_2020_right = new L.tileLayer('')
-var layer_2011_left = L.tileLayer('tiles/2011/{z}/{x}/{y}.png', {
+var layer_2011_left = L.tileLayer('https://gitee.com/momentbeijing/aerial/raw/master/2011/{z}/{x}/{y}.png', {
         tms: true, 
         attribution: "二零一一", 
         maxNativeZoom: 17, 
@@ -56,7 +56,7 @@ var layer_2011_left = L.tileLayer('tiles/2011/{z}/{x}/{y}.png', {
         maxZoom: 19,
         bounds: smallbounds,
         });
-var layer_2011_right = L.tileLayer('tiles/2011/{z}/{x}/{y}.png', {
+var layer_2011_right = L.tileLayer('https://gitee.com/momentbeijing/aerial/raw/master/2011/{z}/{x}/{y}.png', {
         tms: true, 
         attribution: "二零一一", 
         maxNativeZoom: 17, 
@@ -64,7 +64,7 @@ var layer_2011_right = L.tileLayer('tiles/2011/{z}/{x}/{y}.png', {
         maxZoom: 19,
         bounds: smallbounds,
         });
-var layer_1999_right = L.tileLayer('tiles/1999/{z}/{x}/{y}.png', {
+var layer_1999_right = L.tileLayer('https://gitee.com/momentbeijing/aerial/raw/master/1999/{z}/{x}/{y}.png', {
         tms: true, 
         attribution: "一九九九", 
         maxNativeZoom: 17, 
@@ -72,7 +72,7 @@ var layer_1999_right = L.tileLayer('tiles/1999/{z}/{x}/{y}.png', {
         maxZoom: 19,
         bounds: smallbounds,
         });
-var layer_1999_left = L.tileLayer('tiles/1999/{z}/{x}/{y}.png', {
+var layer_1999_left = L.tileLayer('https://gitee.com/momentbeijing/aerial/raw/master/1999/{z}/{x}/{y}.png', {
         tms: true, 
         attribution: "一九九九", 
         maxNativeZoom: 17, 
@@ -80,7 +80,7 @@ var layer_1999_left = L.tileLayer('tiles/1999/{z}/{x}/{y}.png', {
         maxZoom: 19,
         bounds: smallbounds,
         });
-var layer_1959_right = L.tileLayer('tiles/1959/{z}/{x}/{y}.png', {
+var layer_1959_right = L.tileLayer('https://gitee.com/momentbeijing/aerial/raw/master/1959/{z}/{x}/{y}.png', {
         tms: true, 
         attribution: "一九五九", 
         maxNativeZoom: 17, 
@@ -88,7 +88,7 @@ var layer_1959_right = L.tileLayer('tiles/1959/{z}/{x}/{y}.png', {
         maxZoom: 19,
         bounds: smallbounds,
         });
-var layer_1959_left = L.tileLayer('tiles/1959/{z}/{x}/{y}.png', {
+var layer_1959_left = L.tileLayer('https://gitee.com/momentbeijing/aerial/raw/master/1959/{z}/{x}/{y}.png', {
         tms: true, 
         attribution: "一九五九", 
         maxNativeZoom: 17, 
@@ -96,7 +96,7 @@ var layer_1959_left = L.tileLayer('tiles/1959/{z}/{x}/{y}.png', {
         maxZoom: 19,
         bounds: smallbounds,
         });
-var layer_1938_right = L.tileLayer('tiles/1938/{z}/{x}/{y}.png', {
+var layer_1938_right = L.tileLayer('https://gitee.com/momentbeijing/aerial/raw/master/1938/{z}/{x}/{y}.png', {
         tms: true, 
         attribution: "一九三八", 
         maxNativeZoom: 17, 
@@ -104,7 +104,7 @@ var layer_1938_right = L.tileLayer('tiles/1938/{z}/{x}/{y}.png', {
         maxZoom: 19,
         bounds: [[39.86139521223018, 116.441901961577], [39.95966727826219, 116.33840125586399]],
         });
-var layer_1938_left = L.tileLayer('tiles/1938/{z}/{x}/{y}.png', {
+var layer_1938_left = L.tileLayer('https://gitee.com/momentbeijing/aerial/raw/master/1938/{z}/{x}/{y}.png', {
         tms: true, 
         attribution: "一九三八", 
         maxNativeZoom: 17, 
