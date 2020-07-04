@@ -19,7 +19,6 @@ window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) 
 /* **** Leaflet **** */
 // bound
 var bigbounds = [[39.86, 116.45],[39.96, 116.33]];
-var smallbounds = [[39.86572446735752, 116.44348887780663],[39.954196820860616, 116.33614726486017]];
 
 // base layers
 var layer_bw = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', 
@@ -46,72 +45,30 @@ var layer_osmb = new OSMBuildings(map).load('https://{s}.data.osmbuildings.org/0
         })
 
 // aerial layers
+var jsdelivr_cdn = 'https://cdn.jsdelivr.net/gh/momentbeijing/momentbeijing.github.io/aerial/tiles/'
+var map_zxy = '/{z}/{x}/{y}.png'
+var smallbounds = [[39.86572446735752, 116.44348887780663],[39.954196820860616, 116.33614726486017]];
+function makesidelayer(year){
+    return L.tileLayer(jsdelivr_cdn+year+map_zxy, {
+        tms: true, 
+        attribution: year, 
+        maxNativeZoom:17, 
+        minNativeZoom:13, 
+        maxZoom: 19,
+        bounds: smallbounds,
+        });
+}
+var layer_1938_left = makesidelayer(1938)
+var layer_1938_right = makesidelayer(1938)
+var layer_1959_left = makesidelayer(1959)
+var layer_1959_right = makesidelayer(1959)
+var layer_1999_left = makesidelayer(1999)
+var layer_1999_right = makesidelayer(1999)
+var layer_2011_left = makesidelayer(2011)
+var layer_2011_right = makesidelayer(2011)
 var layer_2020_left = new L.tileLayer('') 
 var layer_2020_right = new L.tileLayer('')
-var layer_2011_left = L.tileLayer('https://gitee.com/momentbeijing/aerial/raw/master/2011/{z}/{x}/{y}.png', {
-        tms: true, 
-        attribution: "二零一一", 
-        maxNativeZoom: 17, 
-        minNativeZoom:13, 
-        maxZoom: 19,
-        bounds: smallbounds,
-        });
-var layer_2011_right = L.tileLayer('https://gitee.com/momentbeijing/aerial/raw/master/2011/{z}/{x}/{y}.png', {
-        tms: true, 
-        attribution: "二零一一", 
-        maxNativeZoom: 17, 
-        minNativeZoom:13, 
-        maxZoom: 19,
-        bounds: smallbounds,
-        });
-var layer_1999_right = L.tileLayer('https://gitee.com/momentbeijing/aerial/raw/master/1999/{z}/{x}/{y}.png', {
-        tms: true, 
-        attribution: "一九九九", 
-        maxNativeZoom: 17, 
-        minNativeZoom:13, 
-        maxZoom: 19,
-        bounds: smallbounds,
-        });
-var layer_1999_left = L.tileLayer('https://gitee.com/momentbeijing/aerial/raw/master/1999/{z}/{x}/{y}.png', {
-        tms: true, 
-        attribution: "一九九九", 
-        maxNativeZoom: 17, 
-        minNativeZoom:13, 
-        maxZoom: 19,
-        bounds: smallbounds,
-        });
-var layer_1959_right = L.tileLayer('https://gitee.com/momentbeijing/aerial/raw/master/1959/{z}/{x}/{y}.png', {
-        tms: true, 
-        attribution: "一九五九", 
-        maxNativeZoom: 17, 
-        minNativeZoom:13, 
-        maxZoom: 19,
-        bounds: smallbounds,
-        });
-var layer_1959_left = L.tileLayer('https://gitee.com/momentbeijing/aerial/raw/master/1959/{z}/{x}/{y}.png', {
-        tms: true, 
-        attribution: "一九五九", 
-        maxNativeZoom: 17, 
-        minNativeZoom:13, 
-        maxZoom: 19,
-        bounds: smallbounds,
-        });
-var layer_1938_right = L.tileLayer('https://gitee.com/momentbeijing/aerial/raw/master/1938/{z}/{x}/{y}.png', {
-        tms: true, 
-        attribution: "一九三八", 
-        maxNativeZoom: 17, 
-        minNativeZoom:13, 
-        maxZoom: 19,
-        bounds: [[39.86139521223018, 116.441901961577], [39.95966727826219, 116.33840125586399]],
-        });
-var layer_1938_left = L.tileLayer('https://gitee.com/momentbeijing/aerial/raw/master/1938/{z}/{x}/{y}.png', {
-        tms: true, 
-        attribution: "一九三八", 
-        maxNativeZoom: 17, 
-        minNativeZoom:13, 
-        maxZoom: 19,
-        bounds: [[39.86139521223018, 116.441901961577], [39.95966727826219, 116.33840125586399]],
-        });
+
 
 //pass url params: https://blog.mastermaps.com/2012/10/how-to-control-your-leaflet-map-with.html
 var years = ['1938','1959','1999','2011','2020']
