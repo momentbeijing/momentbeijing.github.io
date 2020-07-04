@@ -215,4 +215,70 @@ title.update = function(props) {
     };
 title.addTo(map);
 
+//looplayer
+function clicklayer(i){
+    document.getElementsByClassName('leaflet-control-layers-selector')[i].click();
+}
+
+function addyearcap(){
+    var yearcap = document.createElement('div');
+    yearcap.id = 'yearcap';
+    yearcap.innerHTML = '';
+    yearcap.style.color = 'white';
+    yearcap.style.zIndex = '1000';
+    yearcap.style.position = 'absolute';
+    yearcap.style.fontSize = '10vw';
+    yearcap.style.top = '85%';
+    yearcap.style.left = '50%';
+    yearcap.style.transform = 'translate(-50%, -50%) scalex(1.5)';
+    yearcap.style.textShadow = '0 0 20px black';
+    yearcap.style.letterSpacing = '2vw';
+    document.body.appendChild(yearcap);
+}
+
+function changeyearcap(i){
+    document.getElementById('yearcap').innerHTML = '-'+Object.keys(basemaps_left)[i]+'-'
+}
+
+function removeyearcap(){
+    document.getElementById('yearcap').remove()
+}
+
+
+function looplayer(i){
+    if (i == 0){
+        clicklayer(i);
+        addyearcap()
+        changeyearcap(i);
+        i++;
+        looplayer(i);
+    } else if (i < Object.keys(basemaps_left).length){
+        setTimeout(function(){
+            clicklayer(i);
+            changeyearcap(i);
+            i++;
+            looplayer(i);
+        },3000);
+    } else {
+        setTimeout(function(){
+        removeyearcap();
+        },3000);
+    }
+}
+
+var title = L.control({position: 'bottomright'});
+title.onAdd = function(map) {
+    this._div = L.DomUtil.create('div', 'ctl title');
+    this.update();
+    return this._div;
+    };
+title.update = function(props) {
+    this._div.innerHTML = '<a rel="noopener noreferrer" href="#" onclick="looplayer(0);" style="text-decoration:none; color:black;">⏳</a>';
+    };
+title.addTo(map);
+
+// L.easyButton('<span>GIF</span>', function(){
+//     looplayer(0);
+// }).addTo(map);
+
 </script>
