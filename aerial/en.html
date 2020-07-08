@@ -41,7 +41,7 @@ var layer_osmb = new OSMBuildings(map).load('https://{s}.data.osmbuildings.org/0
         roofColor:'rgba(244, 67, 54, 0.01)', 
         shadows:false, 
         zoomOffset: 4,
-        minNativeZoom:10,
+        minNativeZoom:13,
         })
 
 // aerial layers
@@ -272,7 +272,7 @@ function copylonlat(){
     dummy.setSelectionRange(0, 99999)
     document.execCommand("copy")
     document.body.removeChild(dummy)
-    addyearcap("Link Copied",'20px')
+    addyearcap("Link of View Copied",'20px')
     setTimeout(function(){
         removeyearcap();
         },3000);
@@ -289,7 +289,6 @@ title.update = function(props) {
     this._div.innerHTML = '<a rel="noopener noreferrer" href="javascript:void(null);" onclick="copylonlat();" style="text-decoration:none; color:black;">🔗</a><span class="tooltiptext">Share Current View</span>';
     };
 title.addTo(map);
-
 
 
 </script>
