@@ -11,7 +11,7 @@ layout: map
 
 // read url params
 var params = {};
-window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+window.location.href.replace(/[?&]+([^=&]+)=([^&#]*)/gi, function(m, key, value) {
   params[key] = value;
 });
 
@@ -72,19 +72,25 @@ var layer_2020_right = new L.tileLayer('')
 
 //pass url params: https://blog.mastermaps.com/2012/10/how-to-control-your-leaflet-map-with.html
 var years = ['1938','1959','1999','2011','2020']
-if (years.includes(params.year)) {
-  var layer_param_left = 'layer_'+params.year+'_left'
+if (years.includes(params.left)) {
+  var layer_param_left = 'layer_'+params.left+'_left'
 } else {
     layer_param_left = 'layer_1999_left'
 }
 
+if (years.includes(params.right)) {
+  var layer_param_right = 'layer_'+params.right+'_right'
+} else {
+    layer_param_right = 'layer_2020_right'
+}
+
 // leaflet map
 var map = L.map('map', {
-        center: [parseInt(params.lat)||39.90988365647943,parseInt(params.lon)|| 116.38964525311975],
-        zoom: 1,
+        center: [parseFloat(params.lat)||39.93926584787565,parseFloat(params.lon)|| 116.38924554025185],
+        zoom: 16,
         minZoom: 12,
         maxZoom: 19,
-        layers: [layer_bw, layer_bing, layer_2020_right, eval(layer_param_left)],
+        layers: [layer_bw, layer_bing, eval(layer_param_left),eval(layer_param_right)],
         attributionControl: false,
         zoomControl: false,
         });
@@ -148,26 +154,45 @@ L.control.layers(
 
 L.control.sideBySide(Object.values(basemaps_left),Object.values(basemaps_right)).addTo(map);
 
-// search widget
-var bingGeocoder = new L.Control.BingGeocoder('AsaKzgbo2GW8wrcv0mLCyVvEx2Q8V1N54Gpmizw-fzHIKOAjAMMy4TdNfKdS71vs');
-map.addControl(bingGeocoder);
+// params.q
+{% raw %}
+function getcenter(q){
+    url = 'https://api.tianditu.gov.cn/search?postStr={%22keyWord%22:%22'+q+'%22,%22level%22:%2215%22,%22mapBound%22:%22116.40466,39.90684,116.45016,39.93138%22,%22queryType%22:%223%22,%22pointLonlat%22:%22116.39,%2039.91%22,%22queryRadius%22:%2221000%22,%22count%22:%221%22,%22start%22:%220%22}&type=query&tk=174705aebfe31b79b3587279e211cb9a'
+    http = new XMLHttpRequest();
+    http.onreadystatechange = function(){
+        if (http.readyState == 4 && http.status == 200){
+            if (typeof cb == 'function') cb(http.responseText);
+        }
+    }
+    http.open('GET', url, false)
+    http.send()
+    if (http.readyState===4){
+        map.flyTo(JSON.parse(http.responseText).pois[0].lonlat.split(' ').reverse().map(parseFloat),16);
+    }
+}
+{% endraw %}
 
 if (params.q) {
-  bingGeocoder._input.value=decodeURIComponent(params.q);
-  bingGeocoder._geocode_initial()
+getcenter(params.q);
 } else {
 setTimeout(function(){map.zoomIn(1);},2000);
 }
 
+
+// search widget
+var bingGeocoder = new L.Control.BingGeocoder('AsaKzgbo2GW8wrcv0mLCyVvEx2Q8V1N54Gpmizw-fzHIKOAjAMMy4TdNfKdS71vs');
+map.addControl(bingGeocoder);
+
+
 //language link
 var title = L.control({position: 'bottomright'});
 title.onAdd = function(map) {
-    this._div = L.DomUtil.create('div', 'ctl title');
+    this._div = L.DomUtil.create('div', 'ctl title tooltip');
     this.update();
     return this._div;
     };
 title.update = function(props) {
-    this._div.innerHTML = '<a rel="noopener noreferrer" href="{{ site.url }}/aerial/index.html" style="text-decoration:none; color:black;">文</a>';
+    this._div.innerHTML = '<a rel="noopener noreferrer" href="{{ site.url }}/aerial/index.html" style="text-decoration:none; color:black;">文</a><span class="tooltiptext">中文版</span>';
     };
 title.addTo(map);
 
@@ -176,19 +201,19 @@ function clicklayer(i){
     document.getElementsByClassName('leaflet-control-layers-selector')[i].click();
 }
 
-function addyearcap(){
+function addyearcap(text, size){
     var yearcap = document.createElement('div');
     yearcap.id = 'yearcap';
-    yearcap.innerHTML = '';
-    yearcap.style.color = 'white';
-    yearcap.style.zIndex = '1000';
-    yearcap.style.position = 'absolute';
-    yearcap.style.fontSize = '10vw';
-    yearcap.style.top = '85%';
-    yearcap.style.left = '50%';
-    yearcap.style.transform = 'translate(-50%, -50%) scalex(1.5)';
-    yearcap.style.textShadow = '0 0 20px black';
-    yearcap.style.letterSpacing = '2vw';
+    yearcap.innerHTML = text;
+    // yearcap.style.color = 'white';
+    // yearcap.style.zIndex = '1000';
+    // yearcap.style.position = 'absolute';
+    yearcap.style.fontSize = size;
+    // yearcap.style.top = '85%';
+    // yearcap.style.left = '50%';
+    // yearcap.style.transform = 'translate(-50%, -50%) scalex(1.5)';
+    // yearcap.style.textShadow = '0 0 20px black';
+    // yearcap.style.letterSpacing = '2vw';
     document.body.appendChild(yearcap);
 }
 
@@ -204,7 +229,7 @@ function removeyearcap(){
 function looplayer(i){
     if (i == 0){
         clicklayer(i);
-        addyearcap()
+        addyearcap('','10vw')
         changeyearcap(i);
         i++;
         looplayer(i);
@@ -224,17 +249,73 @@ function looplayer(i){
 
 var title = L.control({position: 'bottomright'});
 title.onAdd = function(map) {
-    this._div = L.DomUtil.create('div', 'ctl title');
+    this._div = L.DomUtil.create('div', 'ctl title tooltip');
     this.update();
     return this._div;
     };
 title.update = function(props) {
-    this._div.innerHTML = '<a rel="noopener noreferrer" href="#" onclick="looplayer(0);" style="text-decoration:none; color:black;">⏳</a>';
+    this._div.innerHTML = '<a rel="noopener noreferrer" href="javascript:void(null);" onclick="looplayer(0);" style="text-decoration:none; color:black;">⏳</a><span class="tooltiptext">Time Machine</span>';
     };
 title.addTo(map);
 
+// share location
+function copylonlat(){
+    shareurl = window.location.href.split('?')[0]
+    +'?lat='+map.getCenter().lat
+    +'&lon='+map.getCenter().lng
+    +'&left='+parseInt(document.querySelectorAll('input:checked')[0].nextSibling.innerText)
+    +'&right='+parseInt(document.querySelectorAll('input:checked')[1].nextSibling.innerText)
+    var dummy = document.createElement('textarea')
+    document.body.appendChild(dummy)
+    dummy.value=shareurl
+    dummy.select()
+    dummy.setSelectionRange(0, 99999)
+    document.execCommand("copy")
+    document.body.removeChild(dummy)
+    addyearcap("Link Copied",'20px')
+    setTimeout(function(){
+        removeyearcap();
+        },3000);
+
+}
+
+var title = L.control({position: 'bottomright'});
+title.onAdd = function(map) {
+    this._div = L.DomUtil.create('div', 'ctl title tooltip');
+    this.update();
+    return this._div;
+    };
+title.update = function(props) {
+    this._div.innerHTML = '<a rel="noopener noreferrer" href="javascript:void(null);" onclick="copylonlat();" style="text-decoration:none; color:black;">🔗</a><span class="tooltiptext">Share Current View</span>';
+    };
+title.addTo(map);
+
+
+
+</script>
+<!-- 
+# ccapture
+canvas = document.querySelector('#map');
+
+var gif = new CCapture({format:'gif', workersPath:'./assets/js/', framerate:5, verbose:true, display:true, timeLimit:5,})
+
+function render(){
+    requestAnimationFrame(render);
+    // rendering stuff ...
+    gif.capture( canvas );
+}
+
+gif.start()
+render()
+gif.stop()
+gif.save() 
+
+# dom-to-image
+https://zhuanlan.zhihu.com/p/120047797
+
+# customized button
 // L.easyButton('<span>GIF</span>', function(){
 //     looplayer(0);
 // }).addTo(map);
 
-</script>
+-->
