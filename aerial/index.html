@@ -58,6 +58,18 @@ function makesidelayer(year){
         bounds: smallbounds,
         });
 }
+var layer_1750_left = L.tileLayer('http://dsr.nii.ac.jp/beijing-maps/google-maps/tile/0.2/{z}/{x}_{y}.png',{
+        attribution: '1750', 
+        minNativeZoom:13, 
+        maxZoom: 19,
+        bounds: smallbounds,
+        });
+var layer_1750_right = L.tileLayer('http://dsr.nii.ac.jp/beijing-maps/google-maps/tile/0.2/{z}/{x}_{y}.png',{
+        attribution: '1750', 
+        minNativeZoom:13, 
+        maxZoom: 19,
+        bounds: smallbounds,
+        });
 var layer_1938_left = makesidelayer(1938)
 var layer_1938_right = makesidelayer(1938)
 var layer_1959_left = makesidelayer(1959)
@@ -71,7 +83,7 @@ var layer_2020_right = new L.tileLayer('')
 
 
 //pass url params: https://blog.mastermaps.com/2012/10/how-to-control-your-leaflet-map-with.html
-var years = ['1938','1959','1999','2011','2020']
+var years = ['1750','1938','1959','1999','2011','2020']
 if (years.includes(params.left)) {
   var layer_param_left = 'layer_'+params.left+'_left'
 } else {
@@ -122,6 +134,7 @@ title.addTo(map);
 
 // selection panel
 var basemaps_left = {
+    "1750": layer_1750_left,
     "1938": layer_1938_left,
     "1959": layer_1959_left,
     "1999": layer_1999_left,
@@ -129,6 +142,7 @@ var basemaps_left = {
     "2020": layer_2020_left,
     }
 var basemaps_right = {
+    "1750": layer_1750_right,
     "1938": layer_1938_right,
     "1959": layer_1959_right,
     "1999": layer_1999_right,
