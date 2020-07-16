@@ -36,13 +36,13 @@ var layer_bw_overlay = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}
         opacity: 0.5, 
         });
 
-var layer_osmb = new OSMBuildings(map).load('https://{s}.data.osmbuildings.org/0.2/anonymous/tile/{z}/{x}/{y}.json');
-    layer_osmb.style({wallColor:'rgba(37, 3, 1, 0.8)', 
-        roofColor:'rgba(244, 67, 54, 0.01)', 
-        shadows:false, 
-        zoomOffset: 4,
-        minNativeZoom:13,
-        })
+// var layer_osmb = new OSMBuildings(map).load('https://{s}.data.osmbuildings.org/0.2/anonymous/tile/{z}/{x}/{y}.json');
+//     layer_osmb.style({wallColor:'rgba(37, 3, 1, 0.8)', 
+//         roofColor:'rgba(244, 67, 54, 0.01)', 
+//         shadows:false, 
+//         zoomOffset: 4,
+//         minNativeZoom:13,
+//         })
 
 // aerial layers
 var jsdelivr_cdn = 'https://cdn.jsdelivr.net/gh/momentbeijing/momentbeijing.github.io/aerial/tiles/'
@@ -70,6 +70,7 @@ var layer_1750_right = L.tileLayer('http://dsr.nii.ac.jp/beijing-maps/google-map
         maxZoom: 19,
         bounds: smallbounds,
         });
+var layer_bldg = makesidelayer('bldg')
 var layer_1938_left = makesidelayer(1938)
 var layer_1938_right = makesidelayer(1938)
 var layer_1959_left = makesidelayer(1959)
@@ -150,7 +151,8 @@ var basemaps_right = {
     "2020": layer_2020_right,
     }
 var overlaymaps = {
-    "道路建筑": L.layerGroup([layer_osmb, layer_bw_overlay])
+    "道路建筑":L.layerGroup([layer_bw_overlay,layer_bldg]),
+    // 'mybldg':layer_bldg,
     }
 // Add base layers
 L.control.layers(
