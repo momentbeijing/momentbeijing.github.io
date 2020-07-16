@@ -80,6 +80,7 @@ var layer_2011_left = makesidelayer(2011)
 var layer_2011_right = makesidelayer(2011)
 var layer_2020_left = new L.tileLayer('') 
 var layer_2020_right = new L.tileLayer('')
+var layer_bldg = new L.tileLayer('bldg')
 
 
 //pass url params: https://blog.mastermaps.com/2012/10/how-to-control-your-leaflet-map-with.html
@@ -150,7 +151,8 @@ var basemaps_right = {
     "2020": layer_2020_right,
     }
 var overlaymaps = {
-    "Rd+Bldg":L.layerGroup([layer_osmb, layer_bw_overlay])
+    "Rd+Bldg":L.layerGroup([layer_osmb, layer_bw_overlay]),
+    'mybldg':layer_bldg,
     }
 // Add base layers
 L.control.layers(
