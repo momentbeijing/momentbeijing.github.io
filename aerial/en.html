@@ -191,11 +191,20 @@ function getcenter(q){
 {% endraw %}
 
 if (params.q) {
-getcenter(params.q);
+    getcenter(params.q);
+} else if(params.icu){
+    console.log('hi')
+    setTimeout(function(){
+        map.flyToBounds(smallbounds)
+        layer_bldg.addTo(map)
+    },2000);
 } else {
-setTimeout(function(){map.zoomIn(1);},2000);
+    setTimeout(function(){map.zoomIn(1);},2000);
 }
 
+if (params.bldg) {
+    layer_bldg.addTo(map)    
+}
 
 // search widget
 var bingGeocoder = new L.Control.BingGeocoder('AsaKzgbo2GW8wrcv0mLCyVvEx2Q8V1N54Gpmizw-fzHIKOAjAMMy4TdNfKdS71vs');
@@ -281,8 +290,12 @@ function copylonlat(){
     shareurl = window.location.href.split('?')[0]
     +'?lat='+map.getCenter().lat
     +'&lon='+map.getCenter().lng
-    +'&left='+parseInt(document.querySelectorAll('input:checked')[0].nextSibling.innerText)
-    +'&right='+parseInt(document.querySelectorAll('input:checked')[1].nextSibling.innerText)
+    +'&left='+parseInt(document.querySelectorAll('input[type=radio]:checked')[0].nextSibling.innerText)
+    +'&right='+parseInt(document.querySelectorAll('input[type=radio]:checked')[1].nextSibling.innerText)
+    if(map.hasLayer(layer_bldg)){
+        shareurl+='&bldg=1'
+    }
+
     var dummy = document.createElement('textarea')
     document.body.appendChild(dummy)
     dummy.value=shareurl
