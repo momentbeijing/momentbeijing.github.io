@@ -193,10 +193,10 @@ function getcenter(q){
 if (params.q) {
     getcenter(params.q);
 } else if(params.icu){
-    console.log('hi')
     setTimeout(function(){
         map.flyToBounds(smallbounds)
         layer_bldg.addTo(map)
+        layer_bw_overlay.addTo(map)
     },2000);
 } else {
     setTimeout(function(){map.zoomIn(1);},2000);
